@@ -4881,7 +4881,6 @@ void ADPICam::piHandleNewImageTask(void)
     int arrayCounter;
     int arrayCallbacks;
     NDArrayInfo arrayInfo;
-    epicsTimeStamp currentTime;
     PicamError error;
     int useDriverTimestamps;
     int useFrameTracking;
@@ -4993,10 +4992,9 @@ void ADPICam::piHandleNewImageTask(void)
 								PicamParameter_FrameSize,
 								&frameSize);
 						if (!useDriverTimestamps){
-							epicsTimeGetCurrent(&currentTime);
-							pImage->timeStamp = currentTime.secPastEpoch
-									+ currentTime.nsec / 1.e9;
 							updateTimeStamp(&pImage->epicsTS);
+							pImage->timeStamp = pImage->epicsTS.secPastEpoch
+									+ pImage->epicsTS.nsec / 1.e9;
 						}
 						else {
 							pTimeStampValue =
