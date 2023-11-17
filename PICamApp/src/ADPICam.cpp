@@ -4992,9 +4992,7 @@ void ADPICam::piHandleNewImageTask(void)
 								PicamParameter_FrameSize,
 								&frameSize);
 						if (!useDriverTimestamps){
-							updateTimeStamp(&pImage->epicsTS);
-							pImage->timeStamp = pImage->epicsTS.secPastEpoch
-									+ pImage->epicsTS.nsec / 1.e9;
+							updateTimeStamps(pImage);
 						}
 						else {
 							pTimeStampValue =
@@ -5010,9 +5008,9 @@ void ADPICam::piHandleNewImageTask(void)
 									timeStampResolution,
 									frameSize,
 									(double)timeStampValue /(double)timeStampResolution);
+							updateTimeStamps(pImage);
 							pImage->timeStamp = (double)timeStampValue /
 									(double)timeStampResolution;
-							updateTimeStamp(&pImage->epicsTS);
 						}
 						// use frame tracking for UniqueID if requested
 						if (!useFrameTracking) {
